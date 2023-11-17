@@ -1,4 +1,4 @@
-import { categoryFormSchema } from "@/app/catgories/category";
+import { categoryFormSchema } from "@/app/categories/category";
 import { db } from "@/server/db";
 import { z } from "zod";
 

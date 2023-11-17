@@ -1,5 +1,5 @@
 import z from 'zod';
-import { categorySchema } from '../catgories/category';
+import { categorySchema } from '../categories/category';
 
 export const expenseFormSchema = z.object({
   name: z.string(),
