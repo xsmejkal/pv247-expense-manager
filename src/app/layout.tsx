@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
 import { LoginStatus } from "./loginStatus";
+import { Providers } from "../app/_components/providers"
 
 const inter = Inter({ subsets: ["latin"] });
 
