@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { LoginStatus } from "./loginStatus";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,9 +25,7 @@ export default function RootLayout({
             <Link href="/" className="hover:text-blue-600">
               Home
             </Link>
-            <Link href="/logout" className="hover:text-blue-600">
-              Log out
-            </Link>
+            <LoginStatus />
           </div>
 
         <div className="flex flex-1">
