@@ -9,7 +9,6 @@ export const POST = async (request: Request) => {
     const parsedCategory = categoryFormSchema.parse(bodyJson);
     const status = await getServerAuthSession();
     const userId = status?.user.id;
-    console.log('userIdxxxxxxxxxxxxxxxxxxxxxxxxxx', status)
 
     if (!userId) {
       return new Response("Server error - could not find userId", {
