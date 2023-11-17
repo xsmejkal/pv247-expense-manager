@@ -2,7 +2,7 @@
 
 import { signIn, signOut, useSession } from "next-auth/react";
 
-export const loginStatus = () => {
+export const LoginStatus = () => {
   const { data, status } = useSession();
   if (status === "loading") return <div>loading...</div>;
   if (status === "unauthenticated") {
