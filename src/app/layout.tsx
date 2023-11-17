@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./_components/providers";
+import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,21 +29,21 @@ export default function RootLayout({
             </Link>
           </div>
 
-          <div className="flex flex-1">
-            <div className="w-60 h-screen bg-gray-800 text-white flex flex-col">
-              <div className="px-5 py-3 font-bold">Menu</div>
-              <Link href="/categories" className="px-5 py-2 hover:bg-gray-700">
-                Categories
-              </Link>
-              <Link href="/expenses" className="px-5 py-2 hover:bg-gray-700">
-                Expenses
-              </Link>
-              <Link href="/reports" className="px-5 py-2 hover:bg-gray-700">
-                Reports
-              </Link>
-            </div>
+        <div className="flex flex-1">
+          <div className="w-60 h-screen bg-gray-800 text-white flex flex-col">
+            <div className="px-5 py-3 font-bold">Menu</div>
+            <Link href="/categories" className="px-5 py-2 hover:bg-gray-700">
+              Categories
+            </Link>
+            <Link href="/expenses" className="px-5 py-2 hover:bg-gray-700">
+              Expenses
+            </Link>
+            <Link href="/reports" className="px-5 py-2 hover:bg-gray-700">
+              Reports
+            </Link>
+          </div>
 
-            <div className="p-5 flex-1">{children}</div>
+          <div className="p-5 flex-1">{children}</div>
           </div>
         </Providers>
       </body>
