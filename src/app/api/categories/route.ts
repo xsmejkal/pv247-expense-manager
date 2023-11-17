@@ -1,14 +1,29 @@
+import { categoryFormSchema } from "@/app/catgories/category";
 import { db } from "@/server/db";
+import { z } from "zod";
 
 export const POST = async (request: Request) => {
-    const { searchParams } = new URL(request.url);
-  
-    const newTodo = await db.category.create({
+  try {
+    const bodyJson = await request.json();
+    const parsedCategory = categoryFormSchema.parse(bodyJson);
+
+    const newCategory = await db.category.create({
       data: {
-        name: searchParams.get('title') ?? 'New catepgory',
-        description: searchParams.get('description') ?? 'No description',
-      }
+        name: parsedCategory.name,
+        description: parsedCategory.description,
+      },
     });
-  
-    return Response.json(newTodo);
-  };
+
+    return new Response(JSON.stringify(newCategory), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return new Response(JSON.stringify({ error: error.errors }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    return new Response("Server error", { status: 500 });
+  }
+};
