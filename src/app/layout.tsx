@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,7 +41,7 @@ export default function RootLayout({
             </Link>
           </div>
 
-          <div className="p-5 flex-1">{children}</div>
+          <div className="p-5 flex-1"><Providers>{children}</Providers></div>
         </div>
       </body>
     </html>
