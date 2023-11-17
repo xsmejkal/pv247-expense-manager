@@ -15,6 +15,7 @@ export const CategoryRow = ({ category }: { category: Category }) => {
     mutationFn: deleteCategory,
     onSuccess: () => {
       setDeleting(false);
+      router.push('/categories');
     },
     onError: (error) => {
       console.error("Error deleting category:", error);
