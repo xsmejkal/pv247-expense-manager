@@ -1,6 +1,6 @@
 'use client';
 
-import { Category } from "@prisma/client";
+import { Category } from "../category";
 import { CategoryRow } from "./category-row";
 
 const CategoriesList = ({ categories }: { categories: Category[] }) => (

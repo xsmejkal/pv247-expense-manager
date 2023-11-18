@@ -5,61 +5,64 @@ import { ReactNode, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-
-import { Category, CategoryFormSchema, categoryFormSchema } from "../category";
-import { createCategory, updateCategory } from "../hooks";
+import { Expense, ExpenseFormSchema, expenseFormSchema } from "../expense";
+import { createExpense, updateExpense } from "../hooks";
 
 type MovieFormProviderProps = {
   fields: ReactNode;
-  defaultValues?: Category;
+  defaultValues?: Expense;
 };
 
-export const CategoryFormProvider: React.FC<MovieFormProviderProps> = ({
+export const ExpenseFormProvider: React.FC<MovieFormProviderProps> = ({
   fields,
   defaultValues,
 }) => {
-  const formMethods = useForm<CategoryFormSchema>({
-    resolver: zodResolver(categoryFormSchema),
+  // TODO: fix loading default date value in edit form
+  const formMethods = useForm<ExpenseFormSchema>({
+    resolver: zodResolver(expenseFormSchema),
     defaultValues: defaultValues ?? {
       name: "",
       description: "",
+      amount: 0,
+      date: new Date,
     },
   });
 
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
 
-  const { mutate: createCategoryMut } = useMutation({
-    mutationFn: createCategory,
+  const { mutate: createExpenseMut } = useMutation({
+    mutationFn: createExpense,
     onSuccess: () => {
       setSubmitting(false);
-      router.push("/categories");
+      router.push("/expenses");
     },
     onError: (error) => {
-      console.error("Error submitting category form:", error);
+      console.error("Error submitting expense form:", error);
       setSubmitting(false);
     },
   });
 
-  const { mutate: updateCategoryMut } = useMutation({
-    mutationFn: updateCategory,
+  const { mutate: updateExpenseMut } = useMutation({
+    mutationFn: updateExpense,
     onSuccess: () => {
       setSubmitting(false);
-      router.push("/categories");
+      router.push("/expenses");
     },
     onError: (error) => {
-      console.error("Error submitting category form:", error);
+      console.error("Error submitting expense form:", error);
       setSubmitting(false);
     },
   });
 
-  const onSubmit = (data: CategoryFormSchema) => {
+  const onSubmit = (data: ExpenseFormSchema) => {
+    console.log("------------- onSubmit ----------------", data);
     setSubmitting(true);
 
     if (defaultValues?.id) {
-      updateCategoryMut({ ...data, id: defaultValues.id });
+      updateExpenseMut({ ...data, id: defaultValues.id });
     } else {
-      createCategoryMut(data);
+      createExpenseMut(data);
     }
   };
 
@@ -69,7 +72,7 @@ export const CategoryFormProvider: React.FC<MovieFormProviderProps> = ({
         onSubmit={formMethods.handleSubmit(onSubmit)}
         className="flex flex-col items-center gap-4 p-4"
       >
-        {fields}
+        <div className="flex flex-col gap-2">{fields}</div>
         <button
           type="submit"
           disabled={submitting}

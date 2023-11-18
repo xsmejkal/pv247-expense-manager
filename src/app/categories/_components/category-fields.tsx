@@ -1,9 +1,8 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { CategoryFormProvider } from "./category-form-provider";
 
-const CategoryFields = () => {
+export const CategoryFields = () => {
   const { register } = useFormContext();
 
   return (
@@ -24,13 +23,3 @@ const CategoryFields = () => {
     </div>
   );
 };
-
-const CreateCategoryForm = () => {
-  return (
-    <CategoryFormProvider defaultValues={{ name: "", description: "" }}>
-      <CategoryFields />
-    </CategoryFormProvider>
-  );
-};
-
-export default CreateCategoryForm;
