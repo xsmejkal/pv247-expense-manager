@@ -1,19 +1,22 @@
+"use client";
+
 import { useForm, FormProvider } from "react-hook-form";
 import { ReactNode, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/router";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
 import { Category, CategoryFormSchema, categoryFormSchema } from "../category";
+import { createCategory, updateCategory } from "../hooks";
 
 type MovieFormProviderProps = {
-	fields: ReactNode;
-	defaultValues?: Category;
+  fields: ReactNode;
+  defaultValues?: Category;
 };
 
-export const CategoryFormProvider:
-React.FC<MovieFormProviderProps> = ({
-	fields,
-	defaultValues
+export const CategoryFormProvider: React.FC<MovieFormProviderProps> = ({
+  fields,
+  defaultValues,
 }) => {
   const formMethods = useForm<CategoryFormSchema>({
     resolver: zodResolver(categoryFormSchema),
@@ -27,21 +30,37 @@ React.FC<MovieFormProviderProps> = ({
   const router = useRouter();
 
   const { mutate: createCategoryMut } = useMutation({
-    // TODO import/create createCategory
     mutationFn: createCategory,
     onSuccess: () => {
-        setSubmitting(false);
-        router.push('/categories');
+      setSubmitting(false);
+      router.push("/categories");
     },
     onError: (error) => {
-        console.error('Error submitting category form:', error);
-        setSubmitting(false);
-    }
-});
+      console.error("Error submitting category form:", error);
+      setSubmitting(false);
+    },
+  });
+
+  const { mutate: updateCategoryMut } = useMutation({
+    mutationFn: updateCategory,
+    onSuccess: () => {
+      setSubmitting(false);
+      router.push("/categories");
+    },
+    onError: (error) => {
+      console.error("Error submitting category form:", error);
+      setSubmitting(false);
+    },
+  });
 
   const onSubmit = (data: CategoryFormSchema) => {
     setSubmitting(true);
-    createCategoryMut(data);
+
+    if (defaultValues?.id) {
+      updateCategoryMut({ ...data, id: defaultValues.id });
+    } else {
+      createCategoryMut(data);
+    }
   };
 
   return (
@@ -62,7 +81,3 @@ React.FC<MovieFormProviderProps> = ({
     </FormProvider>
   );
 };
-function zodResolver(categoryFormSchema: any): import("react-hook-form").Resolver<CategoryFormSchema, any> | undefined {
-    throw new Error("Function not implemented.");
-}
-
