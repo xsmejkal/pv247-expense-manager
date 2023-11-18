@@ -6,6 +6,12 @@ export const expenseFormSchema = z.object({
   description: z.string(),
   categoryId: z.number(),
   amount: z.number(),
+  date: z.preprocess((arg) => {
+    if (typeof arg === 'string' && !isNaN(Date.parse(arg))) {
+      return new Date(arg);
+    }
+    return arg;
+  }, z.date()),
 });
 
 export const expenseSchema = expenseFormSchema.extend({
