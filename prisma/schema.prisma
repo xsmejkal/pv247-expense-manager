@@ -15,6 +15,7 @@ model Expense {
   name        String
   description String
   amount      Float
+  date        DateTime
   userId      String
   categoryId  Int
   user        User     @relation(fields: [userId], references: [id])

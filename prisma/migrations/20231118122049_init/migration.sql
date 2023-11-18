@@ -1,10 +1,25 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "Expense" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "amount" REAL NOT NULL,
+    "date" DATETIME NOT NULL,
+    "userId" TEXT NOT NULL,
+    "categoryId" INTEGER NOT NULL,
+    CONSTRAINT "Expense_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Expense_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
 
-  - Added the required column `userId` to the `Category` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `userId` to the `Expense` table without a default value. This is not possible if the table is not empty.
+-- CreateTable
+CREATE TABLE "Category" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    CONSTRAINT "Category_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
 
-*/
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL PRIMARY KEY,
@@ -46,34 +61,6 @@ CREATE TABLE "VerificationToken" (
     "token" TEXT NOT NULL,
     "expires" DATETIME NOT NULL
 );
-
--- RedefineTables
-PRAGMA foreign_keys=OFF;
-CREATE TABLE "new_Category" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    CONSTRAINT "Category_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-INSERT INTO "new_Category" ("description", "id", "name") SELECT "description", "id", "name" FROM "Category";
-DROP TABLE "Category";
-ALTER TABLE "new_Category" RENAME TO "Category";
-CREATE TABLE "new_Expense" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "amount" REAL NOT NULL,
-    "userId" TEXT NOT NULL,
-    "categoryId" INTEGER NOT NULL,
-    CONSTRAINT "Expense_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Expense_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-INSERT INTO "new_Expense" ("amount", "categoryId", "description", "id", "name") SELECT "amount", "categoryId", "description", "id", "name" FROM "Expense";
-DROP TABLE "Expense";
-ALTER TABLE "new_Expense" RENAME TO "Expense";
-PRAGMA foreign_key_check;
-PRAGMA foreign_keys=ON;
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
