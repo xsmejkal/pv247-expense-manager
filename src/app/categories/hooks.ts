@@ -1,5 +1,5 @@
 export const deleteCategory = async (id: number): Promise<void> => {
-    const response = await fetch(`/api/category/${id}`, {
+    const response = await fetch(`/api/categories/${id}`, {
         method: 'DELETE'
     });
 
