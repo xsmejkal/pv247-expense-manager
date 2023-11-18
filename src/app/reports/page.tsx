@@ -1,52 +1,38 @@
-import { getAllCategories } from "@/server/category";
-import * as d3 from "d3";
 import { Suspense } from "react";
-import { db } from "@/server/db";
-import { Expense } from "../expenses/expense";
-import { mockData } from "./dataMock";
 import BarChart from "./BarChart";
+import { getAllExpenses, serverExpense } from "@/server/expense";
+import PieChart from "./PieChart";
+import DifferenceBarChart from "./DifferenceBarChart";
 
-// TODO MOVE it to /server/expenses file
-const getExpenses = async (): Promise<
-  {
-    id: number;
-    name: string;
-    description: string;
-    amount: number;
-    date: Date;
-    userId: string;
-    categoryId: number;
-  }[]
-> => {
-  try {
-    const expenses = await db.expense.findMany();
-    return expenses;
-  } catch (error) {
-    console.error("Error fetching expenses:", error);
-    throw error;
-  }
+export type chartsData = {
+  [categoryName: string]: number;
 };
 
-// TODO use zod object for category
-const expensesByCategoryId = (
-  expenses: {
-    id: number;
-    name: string;
-    description: string;
-    amount: number;
-    date: Date;
-    userId: string;
-    categoryId: number;
-  }[]
-) => {
+const expensesByCategory = (expenses: serverExpense[]) => {
   return expenses.reduce(
-    (result: { [categoryId: number]: number }, expense) => {
-      const id = expense.categoryId;
-      if (!result[id]) {
-        result[id] = 0;
-      } else {
-        result[id] += expense.amount;
+    (result: { [categoryName: string]: number }, expense) => {
+      const categoryName = expense.category.name;
+      if (!result[categoryName]) {
+        result[categoryName] = 0;
       }
+      result[categoryName] += expense.amount;
+      return result;
+    },
+    {}
+  );
+};
+
+const expensesByMonth = (expenses: serverExpense[]) => {
+  return expenses.reduce(
+    (result: { [month: string]: number }, expense) => {
+      const expenseDate = new Date(expense.date);
+      const monthKey = `${expenseDate.getFullYear()}-${expenseDate.getMonth() + 1}`;
+
+      if (!result[monthKey]) {
+        result[monthKey] = 0;
+      }
+
+      result[monthKey] += expense.amount;
       return result;
     },
     {}
@@ -54,24 +40,16 @@ const expensesByCategoryId = (
 };
 
 const Reports = async () => {
-  const categoriesOfUser = await getAllCategories(); // TODO Same
-  const expensesOfUser = await getExpenses(); // TODO change to only expenses of user
-  const groupedExpensesById = Object.entries(
-    expensesByCategoryId(expensesOfUser)
-  );
-
-  const groupedExpenses = [];
-  for (const [categoryId, totalAmount] of groupedExpensesById) {
-    const category = categoriesOfUser.find(
-      (category) => category.id.toString() === categoryId
-    );
-    groupedExpenses.push({ totalAmount, categoryName: category?.name });
-  }
+  const expensesOfUser = await getAllExpenses(); // TODO change to only expenses of user
+  const expensesGroupedByCategory = expensesByCategory(expensesOfUser);
+  const expensesGroupedByMonth = expensesByMonth(expensesOfUser);
 
   return (
     <main>
       <h1>Reports</h1>
-      <BarChart data={mockData} />
+      <BarChart data={expensesGroupedByCategory} />
+      <PieChart data={expensesGroupedByCategory} />
+      <DifferenceBarChart data={expensesGroupedByMonth} />
     </main>
   );
 };
