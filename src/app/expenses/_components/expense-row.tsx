@@ -34,7 +34,7 @@ export const ExpenseRow = ({ expense }: { expense: Expense }) => {
         <span className="text-lg font-bold">{expense.name}</span>
         <span className="text-sm text-gray-700">{expense.description}</span>
         <span className="text-sm text-gray-700">Amount: ${expense.amount.toFixed(2)}</span>
-        <span className="text-sm text-gray-700">Date: {new Date(expense.date).toLocaleDateString()}</span>
+        <span className="text-sm text-gray-700">Date: {new Date(expense.date).toLocaleDateString('en-US')}</span>
         <span className="text-sm text-gray-700">Category: {expense.category.name}</span>
       </div>
       <div className="flex gap-2">
