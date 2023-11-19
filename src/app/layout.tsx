@@ -5,6 +5,8 @@ import { LoginStatus } from "./loginStatus";
 import { Providers } from "../app/_components/providers";
 import Menu from "./Menu";
 import BurgerButton from "./BurgerButton";
+import { getServerAuthSession } from "@/server/auth";
+import LoginPage from "./_components/LoginPage";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,11 +15,23 @@ export const metadata = {
   description: "Expense manager for keeping personal finance in order!",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const status = await getServerAuthSession();
+  const userId = status?.user.id;
+  if (!userId) {
+    return (
+      <html>
+        <body>
+          <LoginPage />
+        </body>
+      </html>
+    );
+  }
+
   return (
     <html lang="en">
       <body className={`${inter.className} flex flex-col`}>
