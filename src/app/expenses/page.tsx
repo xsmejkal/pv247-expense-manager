@@ -2,6 +2,11 @@ import { getAllExpenses } from "@/server/expense";
 import { Suspense } from "react";
 import ExpensesList from "./_components/expenses-list";
 
+export const metadata = {
+  title: "Expenses | Expense manager++",
+  description: "List of your expenses!",
+};
+
 const LoadingExpenses = () => (
   <div className="flex min-h-screen items-center justify-center">
     <div className="loader" />

@@ -3,6 +3,19 @@ import { getExpense } from '@/server/expense';
 import { ExpenseFormProvider } from '../_components/expense-form-provider';
 import { ExpenseFields } from '../_components/expense-fields';
 import ExpenseCategoryFieldLoader from '../_components/expense-category-field-loader';
+import { Metadata } from 'next';
+
+export const generateMetadata = async ({
+    params,
+  }: {
+    params: { id: string };
+  }): Promise<Metadata> => {
+    const expense = await getExpense(params.id);
+    return {
+      title: `${expense.name} | Expense manager++`,
+      description: expense.description,
+    };
+  };
 
 const ExpenseDetailsServer = async ({ expenseId }: { expenseId: string }) => {
     const expense = await getExpense(expenseId);

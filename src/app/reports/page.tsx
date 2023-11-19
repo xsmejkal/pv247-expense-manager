@@ -1,6 +1,11 @@
 import { Suspense } from "react";
-import { getAllExpenses, serverExpense } from "@/server/expense";
+import { getAllExpenses } from "@/server/expense";
 import DatesSelector from "./DatesSelector";
+
+export const metadata = {
+  title: "Reports | Expense manager++",
+  description: "Shows breathtaking reports graphs!",
+};
 
 const Reports = async () => {
   const expensesOfUser = await getAllExpenses(); // TODO change to only expenses of user
