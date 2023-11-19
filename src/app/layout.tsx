@@ -44,7 +44,7 @@ export default async function RootLayout({
           </div>
 
           <div className="hidden md:flex h-screen">
-            <div className="flex flex-row">
+            <div className="flex flex-row w-screen">
               <div className="w-60 h-screen bg-gray-800">
                 <div className="px-5 py-3 font-bold">Menu</div>
                 <Menu />
@@ -56,7 +56,7 @@ export default async function RootLayout({
           <div className="flex md:hidden">
             <div className="flex flex-col w-screen">
               <BurgerButton />
-              <div className="p-5 flex-1">{children}</div>
+              <div className="p-5">{children}</div>
             </div>
           </div>
         </Providers>

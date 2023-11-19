@@ -29,15 +29,21 @@ export const ExpenseRow = ({ expense }: { expense: Expense }) => {
   };
 
   return (
-    <div className="mb-8 p-4 border border-gray-200 rounded">
+    <div className="mb-8 bg-white rounded-lg shadow-md p-4">
       <div className="flex flex-col gap-2 mb-4">
         <span className="text-lg font-bold">{expense.name}</span>
         <span className="text-sm text-gray-700">{expense.description}</span>
-        <span className="text-sm text-gray-700">Amount: ${expense.amount.toFixed(2)}</span>
-        <span className="text-sm text-gray-700">Date: {new Date(expense.date).toLocaleDateString('en-US')}</span>
-        <span className="text-sm text-gray-700">Category: {expense.category.name}</span>
+        <span className="text-sm text-gray-700">
+          Amount: ${expense.amount.toFixed(2)}
+        </span>
+        <span className="text-sm text-gray-700">
+          Date: {new Date(expense.date).toLocaleDateString("en-US")}
+        </span>
+        <span className="text-sm text-gray-700">
+          Category: {expense.category.name}
+        </span>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center justify-center">
         <button
           className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           onClick={() => router.push(`/expenses/${expense.id}`)}
