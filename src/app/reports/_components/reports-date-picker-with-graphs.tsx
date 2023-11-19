@@ -142,11 +142,29 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
 
           <div className="mt-8">
             <h2 className="text-lg font-semibold text-center mb-4">Balance</h2>
-            <DifferenceBarChart data={expensesAndIncomesGroupedByMonth} />
+            <div className="flex justify-center">
+              <DifferenceBarChart data={expensesAndIncomesGroupedByMonth} />
+            </div>
           </div>
         </div>
       ) : (
-        <div>No expenses in selected date period</div>
+        <div className="flex flex-col items-center justify-center mt-10">
+          <div className="text-2xl text-gray-600 mb-3">
+            <span role="img" aria-label="alert">
+              ⚠️
+            </span>{" "}
+            Attention
+          </div>
+          <p className="text-lg text-center font-semibold text-gray-600">
+            No expenses in selected date period
+          </p>
+          <div className="text-gray-400 mt-2">
+            <span role="img" aria-label="calendar">
+              📅
+            </span>
+            Please select a different date range or add new expenses.
+          </div>
+        </div>
       )}
     </div>
   );

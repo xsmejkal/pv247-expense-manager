@@ -56,6 +56,8 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
       .attr("d", arc)
       .attr("fill", (_, i) => d3.schemeCategory10[i % 10]);
 
+    const total = d3.sum(pieData, (d) => d.value);
+
     arcs
       .append("text")
       .attr("transform", function (d) {
@@ -64,6 +66,7 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
       .attr("dy", "0.35em")
       .attr("text-anchor", "middle")
       .each(function (d) {
+        const percent = ((d.data.value / total) * 100).toFixed(1);
         const node = d3.select(this);
         node
           .append("tspan")
@@ -71,11 +74,7 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
           .attr("y", "-0.6em")
           .style("font-weight", "bold")
           .text(d.data.category);
-        node
-          .append("tspan")
-          .attr("x", 0)
-          .attr("y", "1em")
-          .text(d.data.value.toFixed(2));
+        node.append("tspan").attr("x", 0).attr("y", "1em").text(`${percent}%`);
       });
   }, [data]);
 
