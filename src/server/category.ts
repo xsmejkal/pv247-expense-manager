@@ -1,6 +1,13 @@
 import { db } from "@/server/db";
 
-export const getAllCategories = async () => {
+export type serverCategory = {
+  id: number;
+  name: string;
+  description: string;
+  userId: string;
+};
+
+export const getAllCategories = async (): Promise<serverCategory[]> => {
   try {
     const categories = await db.category.findMany();
     return categories;
@@ -10,7 +17,9 @@ export const getAllCategories = async () => {
   }
 };
 
-export const getCategory = async (categoryId: string) => {
+export const getCategory = async (
+  categoryId: string
+): Promise<serverCategory> => {
   try {
     const category = await db.category.findUnique({
       where: {

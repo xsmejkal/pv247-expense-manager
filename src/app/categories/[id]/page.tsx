@@ -2,6 +2,19 @@ import { Suspense } from 'react';
 import { CategoryFormProvider } from '../_components/category-form-provider';
 import { CategoryFields } from '../_components/category-fields';
 import { getCategory } from '@/server/category';
+import { Metadata } from 'next';
+
+export const generateMetadata = async ({
+    params,
+}: {
+    params: { id: string };
+  }): Promise<Metadata> => {
+    const category = await getCategory(params.id);
+    return {
+      title: `${category.name} | Expense manager++`,
+      description: category.description,
+    };
+};
 
 const CategoryDetailsServer = async ({ categoryId }: { categoryId: string }) => {
     const category = await getCategory(categoryId);

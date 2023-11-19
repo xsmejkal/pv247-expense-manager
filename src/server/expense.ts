@@ -1,6 +1,23 @@
 import { db } from "@/server/db";
 
-export const getAllExpenses = async () => {
+export type serverExpense = {
+  category: {
+    id: number;
+    name: string;
+    description: string;
+    userId: string;
+  };
+} & {
+  id: number;
+  name: string;
+  description: string;
+  amount: number;
+  date: Date;
+  userId: string;
+  categoryId: number;
+};
+
+export const getAllExpenses = async (): Promise<serverExpense[]> => {
   try {
     const expenses = await db.expense.findMany({
       include: {
@@ -14,7 +31,7 @@ export const getAllExpenses = async () => {
   }
 };
 
-export const getExpense = async (expenseId: string) => {
+export const getExpense = async (expenseId: string): Promise<serverExpense> => {
   try {
     const expense = await db.expense.findUnique({
       where: {

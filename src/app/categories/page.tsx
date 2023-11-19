@@ -2,6 +2,11 @@ import { getAllCategories } from "@/server/category";
 import { Suspense } from "react";
 import CategoriesList from "./_components/categories-list";
 
+export const metadata = {
+  title: "Categories | Expense manager++",
+  description: "List of your categories!",
+};
+
 const LoadingCategories = () => (
   <div className="flex min-h-screen items-center justify-center">
     <div className="loader" />
