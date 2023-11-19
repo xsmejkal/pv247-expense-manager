@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { LoginStatus } from "./loginStatus";
+import { LoginStatus } from "./login-status";
 import { Providers } from "../app/_components/providers";
-import Menu from "./Menu";
-import BurgerButton from "./BurgerButton";
+import BurgerButton from "./burger-button";
 import { getServerAuthSession } from "@/server/auth";
 import LoginPage from "./_components/LoginPage";
+import Menu from "./Menu";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +34,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col`}>
+      <body className={`${inter.className} flex flex-col w-full overflow-x-hidden`}>
         <Providers>
           <div className="bg-gray-100 w-full px-5 py-3 flex justify-between items-center">
             <Link href="/" className="hover:text-blue-600">
@@ -43,13 +43,17 @@ export default async function RootLayout({
             <LoginStatus />
           </div>
 
-          <div className="hidden md:flex h-screen">
+          <div className="flex md:flex h-screen">
             <div className="flex flex-row w-screen">
-              <div className="w-60 h-screen bg-gray-800">
-                <div className="px-5 py-3 font-bold">Menu</div>
+              <div className="w-60 h-screen bg-gray-800 overflow-y-auto">
+                {" "}
+                <div className="px-5 py-3 font-bold text-white">Menu</div>
                 <Menu />
               </div>
-              <div className="p-5 flex-1">{children}</div>
+              <div className="p-5 flex-1 overflow-y-auto">
+                {" "}
+                {children}
+              </div>
             </div>
           </div>
 
