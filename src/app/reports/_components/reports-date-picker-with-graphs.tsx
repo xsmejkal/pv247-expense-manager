@@ -1,21 +1,13 @@
 "use client";
 
-import { getAllExpenses, serverExpense } from "@/server/expense";
 import React, { useEffect, useState } from "react";
 import BarChart from "./bar-chart";
 import PieChart from "./pie-chart";
 import DifferenceBarChart from "./difference-bar-chart";
-
-export type chartsData = {
-  [categoryName: string]: number;
-};
-
-export type differenceChartsData = {
-  [month: string]: number;
-};
+import { ServerExpense } from "@/app/expenses/expense";
 
 const expensesByCategory = (
-  expenses: serverExpense[],
+  expenses: ServerExpense[],
   startDate: string,
   endDate: string
 ) => {
@@ -38,7 +30,7 @@ const expensesByCategory = (
 };
 
 const expensesByMonth = (
-  expenses: serverExpense[],
+  expenses: ServerExpense[],
   startDate: string,
   endDate: string
 ) => {
@@ -66,7 +58,7 @@ const expensesByMonth = (
 };
 
 type DateSelectorProps = {
-  expenses: serverExpense[];
+  expenses: ServerExpense[];
 };
 
 const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
@@ -121,9 +113,21 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
       {Object.keys(expensesGroupedByCategory).length !== 0 &&
       Object.keys(expensesGroupedByMonth).length !== 0 ? (
         <div>
-          <BarChart data={expensesGroupedByCategory} />
-          <PieChart data={expensesGroupedByCategory} />
-          <DifferenceBarChart data={expensesGroupedByMonth} />
+          <h2 className="text-lg font-semibold text-center mb-4">Expenses</h2>
+
+          <div className="flex justify-around items-center">
+            <div>
+              <BarChart data={expensesGroupedByCategory} />
+            </div>
+            <div>
+              <PieChart data={expensesGroupedByCategory} />
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h2 className="text-lg font-semibold text-center mb-4">Balance</h2>
+            <DifferenceBarChart data={expensesGroupedByMonth} />
+          </div>
         </div>
       ) : (
         <div>No expenses in selected date period</div>

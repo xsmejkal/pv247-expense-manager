@@ -1,24 +1,8 @@
 import { db } from "@/server/db";
 import { getServerAuthSession } from "./auth";
+import { ServerExpense } from "@/app/expenses/expense";
 
-export type serverExpense = {
-  category: {
-    id: number;
-    name: string;
-    description: string;
-    userId: string;
-  };
-} & {
-  id: number;
-  name: string;
-  description: string;
-  amount: number;
-  date: Date;
-  userId: string;
-  categoryId: number;
-};
-
-export const getAllExpenses = async (): Promise<serverExpense[]> => {
+export const getAllExpenses = async (): Promise<ServerExpense[]> => {
   const status = await getServerAuthSession();
   const userId = status?.user.id;
 
@@ -42,7 +26,7 @@ export const getAllExpenses = async (): Promise<serverExpense[]> => {
   }
 };
 
-export const getExpense = async (expenseId: string): Promise<serverExpense> => {
+export const getExpense = async (expenseId: string): Promise<ServerExpense> => {
   try {
     const expense = await db.expense.findUnique({
       where: {

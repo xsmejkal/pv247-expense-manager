@@ -2,11 +2,9 @@
 
 import * as d3 from "d3";
 import { useEffect, useRef } from "react";
-import { chartsData } from "./reports-date-picker-with-graphs";
-
 
 type BarChartProps = {
-  data: chartsData;
+  data: { [categoryName: string]: number };
 };
 
 const BarChart: React.FC<BarChartProps> = ({ data }) => {
