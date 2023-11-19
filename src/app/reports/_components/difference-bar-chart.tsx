@@ -1,5 +1,3 @@
-"use client";
-
 import * as d3 from "d3";
 import { useEffect, useRef } from "react";
 
@@ -15,6 +13,10 @@ const DifferenceBarChart: React.FC<DifferenceBarChartProps> = ({ data }) => {
       return;
     }
 
+    const sortedDataEntries = Object.entries(data).sort((a, b) =>
+      a[0].localeCompare(b[0])
+    );
+
     const width = 500;
     const height = 300;
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
@@ -29,28 +31,40 @@ const DifferenceBarChart: React.FC<DifferenceBarChartProps> = ({ data }) => {
 
     const xScale = d3
       .scaleBand()
-      .domain(Object.keys(data))
+      .domain(sortedDataEntries.map((d) => d[0]))
       .range([margin.left, width - margin.right])
       .padding(0.1);
 
     const yScale = d3
       .scaleLinear()
       .domain([
-        Math.min(0, ...Object.values(data)),
-        Math.max(0, ...Object.values(data)),
+        Math.min(0, ...sortedDataEntries.map((d) => d[1])),
+        Math.max(0, ...sortedDataEntries.map((d) => d[1])),
       ])
       .range([height - margin.bottom, margin.top]);
 
     svg
       .selectAll("rect")
-      .data(Object.entries(data))
+      .data(sortedDataEntries)
       .enter()
       .append("rect")
       .attr("x", (d) => xScale(d[0]) || 0)
-      .attr("y", (d) => (d[1] >= 0 ? yScale(d[1]) : yScale(0)))
+      .attr("y", (d) => yScale(Math.max(0, d[1])))
       .attr("width", xScale.bandwidth())
-      .attr("height", (d) => Math.abs(yScale(0) - yScale(d[1])))
+      .attr("height", (d) => Math.abs(yScale(d[1]) - yScale(0)))
       .attr("fill", (d) => (d[1] >= 0 ? "green" : "red"));
+
+    svg
+      .selectAll(".label")
+      .data(sortedDataEntries)
+      .enter()
+      .append("text")
+      .attr("class", "label")
+      .attr("x", (d) => xScale(d[0])! + xScale.bandwidth() / 2)
+      .attr("y", (d) => yScale(d[1]) + (d[1] >= 0 ? -5 : 15))
+      .attr("text-anchor", "middle")
+      .attr("fill", "black")
+      .text((d) => d[1].toFixed(2));
 
     svg
       .append("g")
@@ -61,8 +75,6 @@ const DifferenceBarChart: React.FC<DifferenceBarChartProps> = ({ data }) => {
       .append("g")
       .attr("transform", `translate(${margin.left}, 0)`)
       .call(d3.axisLeft(yScale));
-
-    svg.append("g").call(d3.axisLeft(yScale));
   }, [data]);
 
   return (

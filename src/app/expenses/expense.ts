@@ -1,5 +1,5 @@
 import z from 'zod';
-import { categorySchema } from '../categories/category';
+import { categorySchema, serverCategorySchema } from '../categories/category';
 
 export const expenseFormSchema = z.object({
   name: z.string().min(1, "Name is required").max(30, "Name must be shorter than 30 characters"),
@@ -19,5 +19,13 @@ export const expenseSchema = expenseFormSchema.extend({
   category: categorySchema,
 });
 
+
+export const serverExpenseSchema = expenseFormSchema.extend({
+  id: z.number(),  
+  userId: z.string(),
+  category: serverCategorySchema,
+});
+
+export type ServerExpense = z.infer<typeof serverExpenseSchema>;
 export type Expense = z.infer<typeof expenseSchema>;
 export type ExpenseFormSchema = z.infer<typeof expenseFormSchema>;

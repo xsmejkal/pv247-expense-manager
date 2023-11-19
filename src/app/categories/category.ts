@@ -9,5 +9,11 @@ export const categorySchema = categoryFormSchema.extend({
   id: z.number(),
 });
 
+
+export const serverCategorySchema = categorySchema.extend({
+  userId: z.string(),
+});
+
+export type ServerCategory = z.infer<typeof serverCategorySchema>;
 export type Category = z.infer<typeof categorySchema>;
 export type CategoryFormSchema = z.infer<typeof categoryFormSchema>;

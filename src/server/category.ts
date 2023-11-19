@@ -1,14 +1,8 @@
 import { db } from "@/server/db";
 import { getServerAuthSession } from "./auth";
+import { ServerCategory } from "@/app/categories/category";
 
-export type serverCategory = {
-  id: number;
-  name: string;
-  description: string;
-  userId: string;
-};
-
-export const getAllCategories = async (): Promise<serverCategory[]> => {
+export const getAllCategories = async (): Promise<ServerCategory[]> => {
   const status = await getServerAuthSession();
   const userId = status?.user.id;
 
@@ -31,7 +25,7 @@ export const getAllCategories = async (): Promise<serverCategory[]> => {
 
 export const getCategory = async (
   categoryId: string
-): Promise<serverCategory> => {
+): Promise<ServerCategory> => {
   try {
     const category = await db.category.findUnique({
       where: {
