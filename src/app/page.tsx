@@ -8,9 +8,9 @@ export default async function Home() {
   );
   const lastExpense = sortedExpenses[0];
   return (
-    <main className="">
+    <main className="flex justify-center h-full w-full">
       <div className="text-center p-8">
-        <h1 className="text-4xl font-bold mb-6">Expense Manager++</h1>
+        <h1 className="text-4xl font-bold mb-12">Expense Manager++</h1>
 
         {lastExpense && (
           <div className="border p-4 rounded-md">
