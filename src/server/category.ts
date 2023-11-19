@@ -1,4 +1,5 @@
 import { db } from "@/server/db";
+import { getServerAuthSession } from "./auth";
 
 export type serverCategory = {
   id: number;
@@ -8,8 +9,19 @@ export type serverCategory = {
 };
 
 export const getAllCategories = async (): Promise<serverCategory[]> => {
+  const status = await getServerAuthSession();
+  const userId = status?.user.id;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
   try {
-    const categories = await db.category.findMany();
+    const categories = await db.category.findMany({
+      where: {
+        userId: userId,
+      },
+    });
     return categories;
   } catch (error) {
     console.error("Error fetching categories:", error);

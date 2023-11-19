@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 const Reports = async () => {
-  const expensesOfUser = await getAllExpenses(); // TODO change to only expenses of user
+  const expensesOfUser = await getAllExpenses();
 
   return (
     <main>
