@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { getAllExpenses } from "@/server/expense";
-import DatesSelector from "./DatesSelector";
+import ReportsDatePickerWithGraphs from "./_components/reports-date-picker-with-graphs";
 
 export const metadata = {
   title: "Reports | Expense manager++",
@@ -13,7 +13,7 @@ const Reports = async () => {
   return (
     <main>
       <h1>Reports</h1>
-      <DatesSelector expenses={expensesOfUser} />
+      <ReportsDatePickerWithGraphs expenses={expensesOfUser} />
     </main>
   );
 };
