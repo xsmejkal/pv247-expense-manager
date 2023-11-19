@@ -2,7 +2,7 @@
 
 import * as d3 from "d3";
 import { useEffect, useRef } from "react";
-import { chartsData } from "./DatesSelector";
+import { chartsData } from "./reports-date-picker-with-graphs";
 
 
 type BarChartProps = {

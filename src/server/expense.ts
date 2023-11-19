@@ -1,4 +1,5 @@
 import { db } from "@/server/db";
+import { getServerAuthSession } from "./auth";
 
 export type serverExpense = {
   category: {
@@ -18,8 +19,18 @@ export type serverExpense = {
 };
 
 export const getAllExpenses = async (): Promise<serverExpense[]> => {
+  const status = await getServerAuthSession();
+  const userId = status?.user.id;
+
+  if (!userId) {
+    throw new Error('User not authenticated');
+  }
+
   try {
     const expenses = await db.expense.findMany({
+      where: {
+        userId: userId,
+      },
       include: {
         category: true,
       },

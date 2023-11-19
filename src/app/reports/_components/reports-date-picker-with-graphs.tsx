@@ -2,9 +2,9 @@
 
 import { getAllExpenses, serverExpense } from "@/server/expense";
 import React, { useEffect, useState } from "react";
-import BarChart from "./BarChart";
-import PieChart from "./PieChart";
-import DifferenceBarChart from "./DifferenceBarChart";
+import BarChart from "./bar-chart";
+import PieChart from "./pie-chart";
+import DifferenceBarChart from "./difference-bar-chart";
 
 export type chartsData = {
   [categoryName: string]: number;
@@ -69,7 +69,9 @@ type DateSelectorProps = {
   expenses: serverExpense[];
 };
 
-const DatesSelector: React.FC<DateSelectorProps> = ({ expenses }) => {
+const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
+  expenses,
+}) => {
   const [expensesGroupedByCategory, setExpensesGroupedByCategory] = useState<{
     [categoryName: string]: number;
   }>({});
@@ -130,4 +132,4 @@ const DatesSelector: React.FC<DateSelectorProps> = ({ expenses }) => {
   );
 };
 
-export default DatesSelector;
+export default ReportsDatePickerWithGraphs;
