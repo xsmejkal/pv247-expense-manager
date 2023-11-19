@@ -17,7 +17,6 @@ export const ExpenseFormProvider: React.FC<MovieFormProviderProps> = ({
   fields,
   defaultValues,
 }) => {
-  // TODO: fix loading default date value in edit form
   const formMethods = useForm<ExpenseFormSchema>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: {
