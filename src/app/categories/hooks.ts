@@ -10,7 +10,16 @@ export const deleteCategory = async (id: number): Promise<void> => {
     });
 
     if (!response.ok) {
-        throw new Error('Error deleting category');
+        let errorMsg = 'Error deleting category';
+        try {
+            const errorData = await response.json();
+            if (errorData && errorData.error) {
+                errorMsg = errorData.error;
+            }
+        } catch (error) {
+            console.error("Error parsing the server's response:", error);
+        }
+        throw new Error(errorMsg);
     }
 };
 

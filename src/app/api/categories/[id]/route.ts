@@ -8,6 +8,15 @@ export const DELETE = async (request: Request) => {
     return Response.json({ error: "Provide valid Id number" }, { status: 400 });
 
   try {
+    const relatedExpenses = await db.expense.findMany({
+      where: { categoryId: id },
+      select: { id: true },
+    });
+
+    if (relatedExpenses.length > 0) {
+      return new Response(JSON.stringify({ error: "Cannot delete category as it has associated expenses" }), { status: 400 });
+    }
+
     const deletedCategory = await db.category.delete({
       where: { id },
     });

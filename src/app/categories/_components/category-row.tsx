@@ -1,14 +1,15 @@
-"use client";
-
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { Category } from "../category";
 import { deleteCategory } from "../hooks";
+import { Modal } from "./modal";
 
 export const CategoryRow = ({ category }: { category: Category }) => {
   const [deleting, setDeleting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   const { mutate: removeCategory } = useMutation({
@@ -20,16 +21,28 @@ export const CategoryRow = ({ category }: { category: Category }) => {
     onError: (error) => {
       console.error("Error deleting category:", error);
       setDeleting(false);
+      setErrorMessage(error instanceof Error ? error.message : "An error occurred while deleting the category");
+      setIsModalOpen(true);
     },
   });
 
   const handleDelete = (id: number) => {
     setDeleting(true);
+    setErrorMessage("");
+    setIsModalOpen(false);
     removeCategory(id);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
     <div className="mb-8">
+      
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <p className="text-red-600">{errorMessage}</p>
+      </Modal>
       <div className="flex flex-col gap-1 mb-2">
         <span className="text-sm font-bold">{category.name}</span>
         <span className="text-sm">{category.description}</span>
