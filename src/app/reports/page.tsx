@@ -12,7 +12,9 @@ const Reports = async () => {
 
   return (
     <main>
-      <h1 className="mb-6 text-2xl font-bold">Reports</h1>
+    <h1 className="mb-6 text-2xl font-bold flex items-center justify-center">
+      Reports
+    </h1>
       <ReportsDatePickerWithGraphs expenses={expensesOfUser} />
     </main>
   );

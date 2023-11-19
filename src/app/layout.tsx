@@ -34,33 +34,33 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col w-full overflow-x-hidden`}>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className={`${inter.className} flex flex-col overflow-x-hidden bg-gray-00`}>
         <Providers>
-          <div className="bg-gray-100 w-full px-5 py-3 flex justify-between items-center">
-            <Link href="/" className="hover:text-blue-600">
+          <div className="bg-gray-100 w-full px-5 py-2 flex justify-between items-center fixed top-0 z-20">
+          <Link className="hover:text-blue-600" href="/">
               Home
             </Link>
             <LoginStatus />
           </div>
 
-          <div className="flex md:flex h-screen">
-            <div className="flex flex-row w-screen">
-              <div className="w-60 h-screen bg-gray-800 overflow-y-auto">
-                {" "}
-                <div className="px-5 py-3 font-bold text-white">Menu</div>
-                <Menu />
-              </div>
-              <div className="p-5 flex-1 overflow-y-auto">
-                {" "}
-                {children}
-              </div>
+          <div className="flex flex-1 pt-16">
+            <div className="w-60 bg-gray-800 overflow-y-auto pt-16 fixed inset-y-0 left-0 z-10">
+              <div className="px-5 py-3 font-bold text-white">Menu</div>
+              <Menu />
+            </div>
+
+            <div className="flex-1 overflow-y-auto pl-60 pt-2">
+              {children}
             </div>
           </div>
 
-          <div className="flex md:hidden">
-            <div className="flex flex-col w-screen">
-              <BurgerButton />
-              <div className="p-5">{children}</div>
+          <div className="md:hidden">
+            <BurgerButton />
+            <div className="overflow-y-auto pt-16">
+              {children}
             </div>
           </div>
         </Providers>
