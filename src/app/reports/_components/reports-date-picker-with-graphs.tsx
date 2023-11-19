@@ -13,7 +13,9 @@ const expensesByCategory = (
 ) => {
   const filteredExpenses = expenses.filter(
     (expense) =>
-      expense.date >= new Date(startDate) && expense.date <= new Date(endDate)
+      expense.date >= new Date(startDate) &&
+      expense.date <= new Date(endDate) &&
+      expense.amount < 0
   );
 
   return filteredExpenses.reduce(
@@ -22,14 +24,14 @@ const expensesByCategory = (
       if (!result[categoryName]) {
         result[categoryName] = 0;
       }
-      result[categoryName] += expense.amount;
+      result[categoryName] += Math.abs(expense.amount);
       return result;
     },
     {}
   );
 };
 
-const expensesByMonth = (
+const expensesAndIncomesByMonth = (
   expenses: ServerExpense[],
   startDate: string,
   endDate: string
@@ -42,8 +44,9 @@ const expensesByMonth = (
   return filteredExpenses.reduce(
     (result: { [month: string]: number }, expense) => {
       const expenseDate = new Date(expense.date);
+      const month = expenseDate.getMonth() + 1;
       const monthKey = `${expenseDate.getFullYear()}-${
-        expenseDate.getMonth() + 1
+        month < 10 ? `0${month}` : month
       }`;
 
       if (!result[monthKey]) {
@@ -67,7 +70,10 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
   const [expensesGroupedByCategory, setExpensesGroupedByCategory] = useState<{
     [categoryName: string]: number;
   }>({});
-  const [expensesGroupedByMonth, setExpensesGroupedByMonth] = useState<{
+  const [
+    expensesAndIncomesGroupedByMonth,
+    setExpensesAndIncomesGroupedByMonth,
+  ] = useState<{
     [month: string]: number;
   }>({});
   const [startDate, setStartDate] = useState<string>("");
@@ -85,33 +91,43 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
     setExpensesGroupedByCategory(
       expensesByCategory(expenses, startDate, endDate)
     );
-    setExpensesGroupedByMonth(expensesByMonth(expenses, startDate, endDate));
+    setExpensesAndIncomesGroupedByMonth(
+      expensesAndIncomesByMonth(expenses, startDate, endDate)
+    );
   }, [startDate, endDate, expenses]);
 
   return (
     <div>
-      <div>
-        <label htmlFor="startDatePicker">Start Date:</label>
-        <input
-          type="date"
-          id="startDatePicker"
-          name="startDatePicker"
-          value={startDate}
-          onChange={handleStartDateChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="endDatePicker">End Date:</label>
-        <input
-          type="date"
-          id="endDatePicker"
-          name="endDatePicker"
-          value={endDate}
-          onChange={handleEndDateChange}
-        />
+      <div className="flex flex-col space-y-2">
+        <div className="flex items-center">
+          <label htmlFor="startDatePicker" className="w-32 mr-2">
+            Start Date:
+          </label>
+          <input
+            type="date"
+            id="startDatePicker"
+            name="startDatePicker"
+            value={startDate}
+            onChange={handleStartDateChange}
+            className="border-gray-300 rounded-md shadow-sm"
+          />
+        </div>
+        <div className="flex items-center">
+          <label htmlFor="endDatePicker" className="w-32 mr-2">
+            End Date:
+          </label>
+          <input
+            type="date"
+            id="endDatePicker"
+            name="endDatePicker"
+            value={endDate}
+            onChange={handleEndDateChange}
+            className="border-gray-300 rounded-md shadow-sm"
+          />
+        </div>
       </div>
       {Object.keys(expensesGroupedByCategory).length !== 0 &&
-      Object.keys(expensesGroupedByMonth).length !== 0 ? (
+      Object.keys(expensesAndIncomesGroupedByMonth).length !== 0 ? (
         <div>
           <h2 className="text-lg font-semibold text-center mb-4">Expenses</h2>
 
@@ -126,7 +142,7 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
 
           <div className="mt-8">
             <h2 className="text-lg font-semibold text-center mb-4">Balance</h2>
-            <DifferenceBarChart data={expensesGroupedByMonth} />
+            <DifferenceBarChart data={expensesAndIncomesGroupedByMonth} />
           </div>
         </div>
       ) : (

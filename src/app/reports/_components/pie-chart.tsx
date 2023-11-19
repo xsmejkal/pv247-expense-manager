@@ -11,20 +11,16 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // Check if there's no data to display
     if (Object.keys(data).length === 0) {
       return;
     }
 
-    // Define chart dimensions
     const width = 500;
     const height = 300;
     const radius = Math.min(width, height) / 2;
 
-    // Remove existing chart before creating a new one
     d3.select(chartContainerRef.current).selectAll("*").remove();
 
-    // Create SVG container
     const svg = d3
       .select(chartContainerRef.current)
       .append("svg")
@@ -33,31 +29,54 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
       .append("g")
       .attr("transform", `translate(${width / 2},${height / 2})`);
 
-    // Prepare data in the format expected by d3.pie().value()
-    const pieData = Object.entries(data).map(([category, value]) => ({
-      category,
+    const pieData = Object.entries(data).map(([key, value]) => ({
+      category: key,
       value,
     }));
 
-    // Create a pie chart layout with explicit typing
     const pie = d3
-      .pie<{ category: string; value: number }>()
-      .value((d) => d.value);
+      .pie<any>()
+      .value((d) => d.value)
+      .sort(null);
 
-    // Create arcs for the pie chart
     const arc = d3
-      .arc<d3.PieArcDatum<{ category: string; value: number }>>()
+      .arc<d3.PieArcDatum<any>>()
       .innerRadius(0)
       .outerRadius(radius);
-      
-    // Draw slices of the pie chart
+
     const arcs = svg
-      .selectAll("path")
+      .selectAll("g.slice")
       .data(pie(pieData))
       .enter()
+      .append("g")
+      .attr("class", "slice");
+
+    arcs
       .append("path")
-      .attr("d", (d) => arc(d) as string)
-      .attr("fill", (_, i) => d3.schemeCategory10[i]);
+      .attr("d", arc)
+      .attr("fill", (_, i) => d3.schemeCategory10[i % 10]);
+
+    arcs
+      .append("text")
+      .attr("transform", function (d) {
+        return "translate(" + arc.centroid(d) + ")";
+      })
+      .attr("dy", "0.35em")
+      .attr("text-anchor", "middle")
+      .each(function (d) {
+        const node = d3.select(this);
+        node
+          .append("tspan")
+          .attr("x", 0)
+          .attr("y", "-0.6em")
+          .style("font-weight", "bold")
+          .text(d.data.category);
+        node
+          .append("tspan")
+          .attr("x", 0)
+          .attr("y", "1em")
+          .text(d.data.value.toFixed(2));
+      });
   }, [data]);
 
   return <div ref={chartContainerRef} id="pie-chart-container"></div>;
