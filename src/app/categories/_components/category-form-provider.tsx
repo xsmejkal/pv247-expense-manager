@@ -34,6 +34,7 @@ export const CategoryFormProvider: React.FC<MovieFormProviderProps> = ({
     onSuccess: () => {
       setSubmitting(false);
       router.push("/categories");
+      router.refresh();
     },
     onError: (error) => {
       console.error("Error submitting category form:", error);
@@ -46,6 +47,7 @@ export const CategoryFormProvider: React.FC<MovieFormProviderProps> = ({
     onSuccess: () => {
       setSubmitting(false);
       router.push("/categories");
+      router.refresh();
     },
     onError: (error) => {
       console.error("Error submitting category form:", error);

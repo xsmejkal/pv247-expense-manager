@@ -40,6 +40,7 @@ export const ExpenseFormProvider: React.FC<MovieFormProviderProps> = ({
     onSuccess: () => {
       setSubmitting(false);
       router.push("/expenses");
+      router.refresh();
     },
     onError: (error) => {
       console.error("Error submitting expense form:", error);
@@ -52,6 +53,7 @@ export const ExpenseFormProvider: React.FC<MovieFormProviderProps> = ({
     onSuccess: () => {
       setSubmitting(false);
       router.push("/expenses");
+      router.refresh();
     },
     onError: (error) => {
       console.error("Error submitting expense form:", error);

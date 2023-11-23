@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Menu from "./menu";
+import Menu from "./Menu";
 
 const BurgerButton = () => {
   const [menuToggled, setMenuToggled] = useState<boolean>(false);
