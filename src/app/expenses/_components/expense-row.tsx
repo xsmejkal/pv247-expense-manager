@@ -26,6 +26,7 @@ export const ExpenseRow = ({ expense }: { expense: Expense }) => {
   const handleDelete = (id: number) => {
     setDeleting(true);
     removeExpense(id);
+    router.refresh();
   };
 
   return (

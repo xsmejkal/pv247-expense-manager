@@ -17,6 +17,7 @@ export const CategoryRow = ({ category }: { category: Category }) => {
     onSuccess: () => {
       setDeleting(false);
       router.push("/categories");
+      router.refresh();
     },
     onError: (error) => {
       console.error("Error deleting category:", error);
@@ -35,6 +36,7 @@ export const CategoryRow = ({ category }: { category: Category }) => {
     setErrorMessage("");
     setIsModalOpen(false);
     removeCategory(id);
+    router.refresh();
   };
 
   const handleCloseModal = () => {
