@@ -90,7 +90,9 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
       .text("Amount");
   }, [data]);
 
-  return <div ref={chartContainerRef} id="chart-container"></div>;
+  return (
+    <div className=" pb-10" ref={chartContainerRef} id="chart-container"></div>
+  );
 };
 
 export default BarChart;
