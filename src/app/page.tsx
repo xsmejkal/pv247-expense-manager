@@ -34,12 +34,12 @@ export default async function Home() {
 
   return (
     <main className="flex justify-center h-full w-full">
-      <div className="text-center p-8 w-full">
-        <h1 className="text-4xl font-bold mb-12">Expense Manager++</h1>
+      <div className="text-center p-8 h-full">
+        <h1 className="text-4xl font-bold mb-16">Expense Manager++</h1>
 
-        <div className="flex flex-row justify-around items-start space-x-4">
+        <div className="flex flex-col justify-around items-middle space-x-4">
           {lastExpense && (
-            <div className="flex-1">
+            <div className="flex-1 mb-16">
               <LastExpense lastExpense={lastExpense} />
             </div>
           )}

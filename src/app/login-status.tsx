@@ -10,7 +10,7 @@ export const LoginStatus = () => {
       Hi, {data?.user.name}
       <button
         onClick={() => signOut()}
-        className="rounded border border-white p-3"
+        className="hover:bg-darkBlue rounded border border-white p-3"
       >
         Sign out
       </button>

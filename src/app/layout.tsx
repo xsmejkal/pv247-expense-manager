@@ -46,7 +46,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en">
+    <html lang="en" className="h-screen bg-backgound">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
@@ -54,8 +54,11 @@ export default async function RootLayout({
         className={`${inter.className} flex flex-col overflow-x-hidden bg-gray-00`}
       >
         <Providers>
-          <div className="bg-gray-100 h-16 w-full px-5 py-2 flex justify-between items-center fixed top-0 z-20">
-            <Link className="hover:text-blue-600" href="/">
+          <div className="bg-complementary text-white h-16 w-full px-5 py-2 flex justify-between items-center fixed top-0 z-20">
+            <Link
+              className="hover:bg-darkBlue hover:text-white rounded border border-white p-3"
+              href="/"
+            >
               Home
             </Link>
             <LoginStatus />
