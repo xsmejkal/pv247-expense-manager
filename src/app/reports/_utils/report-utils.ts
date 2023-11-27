@@ -1,4 +1,6 @@
 import { ServerExpense } from "@/app/expenses/expense";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 export const expensesByCategory = (
   expenses: ServerExpense[],
@@ -52,4 +54,35 @@ export const expensesAndIncomesByMonth = (
     },
     {}
   );
+};
+
+export const exportChartsAsPDF = async () => {
+  const pdf = new jsPDF();
+  const chartElements = document.querySelectorAll(".chart-container");
+  const descriptions = [
+    "Expenses",
+    "Expenses",
+    "Balance",
+  ];
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  for (let i = 0; i < chartElements.length; i++) {
+    const chartElement = chartElements[i] as HTMLElement;
+    try {
+      const canvas = await html2canvas(chartElement);
+      const dataURL = canvas.toDataURL("image/png");
+
+      if (i > 0) {
+        pdf.addPage();
+      }
+
+      pdf.text(descriptions[i], 10, 10);
+      pdf.addImage(dataURL, "PNG", 10, 20, 180, 160);
+    } catch (error) {
+      console.error("Error exporting chart to PDF: ", error);
+    }
+  }
+
+  pdf.save("charts.pdf");
 };

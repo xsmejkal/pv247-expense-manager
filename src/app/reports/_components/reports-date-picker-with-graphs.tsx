@@ -8,6 +8,7 @@ import { ServerExpense } from "@/app/expenses/expense";
 import {
   expensesAndIncomesByMonth,
   expensesByCategory,
+  exportChartsAsPDF,
 } from "../_utils/report-utils";
 
 type DateSelectorProps = {
@@ -46,53 +47,71 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
     );
   }, [startDate, endDate, expenses]);
 
+  const bothDatesSelected = startDate !== "" && endDate !== "";
+
   return (
     <div>
-      <div className="flex flex-col space-y-2">
-        <div className="flex items-center">
-          <label htmlFor="startDatePicker" className="w-32 mr-2">
-            Start Date:
-          </label>
-          <input
-            type="date"
-            id="startDatePicker"
-            name="startDatePicker"
-            value={startDate}
-            onChange={handleStartDateChange}
-            className="border-gray-300 rounded-md shadow-sm"
-          />
+      <div className="flex items-end space-x-4 mb-4">
+        <div className="flex flex-col space-y-2">
+          <div className="flex items-center">
+            <label htmlFor="startDatePicker" className="w-32 mr-2">
+              Start Date:
+            </label>
+            <input
+              type="date"
+              id="startDatePicker"
+              name="startDatePicker"
+              value={startDate}
+              onChange={handleStartDateChange}
+              className="border-gray-300 rounded-md shadow-sm"
+            />
+          </div>
+          <div className="flex items-center">
+            <label htmlFor="endDatePicker" className="w-32 mr-2">
+              End Date:
+            </label>
+            <input
+              type="date"
+              id="endDatePicker"
+              name="endDatePicker"
+              value={endDate}
+              onChange={handleEndDateChange}
+              className="border-gray-300 rounded-md shadow-sm"
+            />
+          </div>
         </div>
-        <div className="flex items-center">
-          <label htmlFor="endDatePicker" className="w-32 mr-2">
-            End Date:
-          </label>
-          <input
-            type="date"
-            id="endDatePicker"
-            name="endDatePicker"
-            value={endDate}
-            onChange={handleEndDateChange}
-            className="border-gray-300 rounded-md shadow-sm"
-          />
-        </div>
+
+        <button
+          onClick={exportChartsAsPDF}
+          disabled={!bothDatesSelected}
+          className={`${
+            bothDatesSelected ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-300"
+          } text-white font-bold py-2 px-4 rounded shadow-lg transition ease-in-out duration-300`}
+        >
+          Export as PDF
+        </button>
       </div>
       {Object.keys(expensesGroupedByCategory).length !== 0 &&
       Object.keys(expensesAndIncomesGroupedByMonth).length !== 0 ? (
         <div>
           <h2 className="text-lg font-semibold text-center mb-4">Expenses</h2>
-
           <div className="flex justify-around items-center">
-            <div>
+            <div className="chart-container">
               <BarChart data={expensesGroupedByCategory} />
             </div>
-            <div>
+            <div
+              className="chart-container"
+              style={{ width: "500", height: "500px" }}
+            >
               <PieChart data={expensesGroupedByCategory} />
             </div>
           </div>
-
           <div className="mt-8">
             <h2 className="text-lg font-semibold text-center mb-4">Balance</h2>
-            <div className="flex justify-center">
+            <div
+              className="flex justify-center chart-container"
+              style={{ width: "500", height: "500px" }}
+            >
               <DifferenceBarChart data={expensesAndIncomesGroupedByMonth} />
             </div>
           </div>
