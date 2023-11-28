@@ -98,21 +98,25 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
       {Object.keys(expensesGroupedByCategory).length !== 0 &&
       Object.keys(expensesAndIncomesGroupedByMonth).length !== 0 ? (
         <div>
-          <h2 className="text-lg font-semibold text-center mb-4">Expenses</h2>
+          <h2 className="text-2xl font-semibold text-center mb-4">
+            Expenses for selected time period
+          </h2>
 
           <div className="flex justify-around items-center flex-col md:flex-row">
             <div className="chart-container">
               <BarChart data={expensesGroupedByCategory} />
             </div>
             <div
-              className="chart-container"
+              className="chart-container pt-16"
               style={{ width: "500", height: "500px" }}
             >
               <PieChart data={expensesGroupedByCategory} />
             </div>
           </div>
           <div className="mt-8 flex flex-col overflow-clip">
-            <h2 className="text-lg font-semibold text-center mb-4">Balance</h2>
+            <h2 className="text-2xl font-semibold text-center mb-4">
+              Balance for selected time period
+            </h2>
             <div
               className="flex justify-center chart-container"
               style={{ width: "500", height: "500px" }}

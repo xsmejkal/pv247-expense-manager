@@ -48,7 +48,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className="h-screen bg-backgound">
+    <html lang="en" className="h-screen bg-background">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
@@ -68,7 +68,7 @@ export default async function RootLayout({
 
           <div className="hidden md:flex flex-1 pt-16">
             <div className="w-60 bg-gray-800 overflow-y-auto pt-16 fixed inset-y-0 left-0 z-10">
-              <div className="px-5 py-3 font-bold text-white">Menu</div>
+              <div className="px-5 py-5 font-bold flex justify-center text-2xl text-white">Menu</div>
               <Menu />
             </div>
 
