@@ -86,7 +86,7 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
         </div>
 
         <button
-          onClick={exportChartsAsPDF}
+          onClick={() => exportChartsAsPDF(startDate, endDate)}
           disabled={!bothDatesSelected}
           className={`${
             bothDatesSelected ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-300"

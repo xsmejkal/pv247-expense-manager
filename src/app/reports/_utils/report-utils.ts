@@ -56,18 +56,20 @@ export const expensesAndIncomesByMonth = (
   );
 };
 
-export const exportChartsAsPDF = async () => {
+export const exportChartsAsPDF = async (startDate: string, endDate: string) => {
   const pdf = new jsPDF();
   const chartElements = document.querySelectorAll(".chart-container");
   const descriptions = [
-    "Expenses",
-    "Expenses",
-    "Balance",
+    "Bar chart - Expenses for selected time period: " +
+      `${startDate} - ${endDate}`,
+    "Pie chart - Expenses for selected time period: " +
+      `${startDate} - ${endDate}`,
+    "Balance for selected time period: " + `${startDate} - ${endDate}`,
   ];
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  for (let i = 0; i < chartElements.length; i++) {
+  for (let i = 0; i < 3; i++) {
     const chartElement = chartElements[i] as HTMLElement;
     try {
       const canvas = await html2canvas(chartElement);
