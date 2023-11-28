@@ -8,6 +8,7 @@ import { getServerAuthSession } from "@/server/auth";
 import LoginPage from "./_components/LoginPage";
 import Menu from "./Menu";
 import Head from "next/head";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,18 +58,29 @@ export default async function RootLayout({
       >
         <Providers>
           <div className="bg-complementary text-white h-16 w-full px-5 py-2 flex justify-between items-center fixed top-0 z-20">
-            <Link
-              className="hover:bg-darkBlue hover:text-white rounded border border-white p-3"
-              href="/"
-            >
-              Home
-            </Link>
+            <div className="flex flex-row gap-6">
+              <Link
+                className="hover:bg-darkBlue hover:text-white rounded border border-white p-3"
+                href="/"
+              >
+                Home
+              </Link>
+              <Image
+                src="/logo.png"
+                alt="Expense Manager++ Logo"
+                objectFit="contain"
+                height={30}
+                width={50}
+              />
+            </div>
             <LoginStatus />
           </div>
 
           <div className="hidden md:flex flex-1 pt-16">
             <div className="w-60 bg-gray-800 overflow-y-auto pt-16 fixed inset-y-0 left-0 z-10">
-              <div className="px-5 py-5 font-bold flex justify-center text-2xl text-white">Menu</div>
+              <div className="px-5 py-5 font-bold flex justify-center text-2xl text-white">
+                Menu
+              </div>
               <Menu />
             </div>
 
