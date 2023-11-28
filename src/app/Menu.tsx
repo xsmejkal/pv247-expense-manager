@@ -10,7 +10,7 @@ const Menu = () => {
 		let baseClass =
 			'px-5 py-2 hover:bg-gray-700';
 		if (isActive(path)) {
-			baseClass += ' font-bold';
+			baseClass += ' font-bold bg-gray-700';
 		}
 		return baseClass;
 	};
