@@ -16,7 +16,7 @@ const Menu = () => {
 	};
 
   return (
-    <div className="bg-gray-800 text-white flex flex-col overflow-y-auto">
+    <div className="bg-gray-800 text-white flex flex-col">
       <Link href="/categories" className={linkClassName("/categories")}>
         Categories
       </Link>

@@ -23,21 +23,23 @@ export default async function RootLayout({
 }) {
   const status = await getServerAuthSession();
   const userId = status?.user.id;
-  
+
   const siteUrl = "https://pv247-expense-manager-theta.vercel.app";
   const imageUrl = `${siteUrl}/logo.png`;
   if (!userId) {
     return (
       <html>
-        
-      <Head>
-        <title>Home Page</title>
-        <meta property="og:title" content="Home Page" key="ogtitle" />
-        <meta property="og:description" content="Description of the home page" key="ogdesc" />
-        <meta property="og:image" content={imageUrl} key="ogimage" />
-        <meta property="og:url" content={siteUrl} key="ogurl" />
-        {/* Other meta tags as needed */}
-      </Head>
+        <Head>
+          <title>Home Page</title>
+          <meta property="og:title" content="Home Page" key="ogtitle" />
+          <meta
+            property="og:description"
+            content="Description of the home page"
+            key="ogdesc"
+          />
+          <meta property="og:image" content={imageUrl} key="ogimage" />
+          <meta property="og:url" content={siteUrl} key="ogurl" />
+        </Head>
         <body>
           <LoginPage />
         </body>
@@ -64,7 +66,7 @@ export default async function RootLayout({
             <LoginStatus />
           </div>
 
-          <div className="flex flex-1 pt-16">
+          <div className="hidden md:flex flex-1 pt-16">
             <div className="w-60 bg-gray-800 overflow-y-auto pt-16 fixed inset-y-0 left-0 z-10">
               <div className="px-5 py-3 font-bold text-white">Menu</div>
               <Menu />
@@ -73,9 +75,11 @@ export default async function RootLayout({
             <div className="flex-1 overflow-y-auto pl-60 pt-2">{children}</div>
           </div>
 
-          <div className="md:hidden">
-            <BurgerButton />
-            <div className="overflow-y-auto pt-16">{children}</div>
+          <div className="md:hidden pt-16">
+            <div className="w-100 bg-gray-800">
+              <BurgerButton />
+            </div>
+            <div className="flex-1 overflow-y-auto pt-2">{children}</div>
           </div>
         </Providers>
       </body>

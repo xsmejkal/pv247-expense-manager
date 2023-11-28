@@ -32,10 +32,12 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
+    localStorage.setItem("startDate", e.target.value);
   };
 
   const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEndDate(e.target.value);
+    localStorage.setItem("endDate", e.target.value);
   };
 
   useEffect(() => {
@@ -45,16 +47,18 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
     setExpensesAndIncomesGroupedByMonth(
       expensesAndIncomesByMonth(expenses, startDate, endDate)
     );
+    setEndDate(localStorage.getItem("endDate") ?? "");
+    setStartDate(localStorage.getItem("startDate") ?? "");
   }, [startDate, endDate, expenses]);
 
   const bothDatesSelected = startDate !== "" && endDate !== "";
 
   return (
     <div>
-      <div className="flex items-end space-x-4 mb-4">
+      <div className="flex mb-4 justify-center items-center">
         <div className="flex flex-col space-y-2">
           <div className="flex items-center">
-            <label htmlFor="startDatePicker" className="w-32 mr-2">
+            <label htmlFor="startDatePicker" className="w-32 ">
               Start Date:
             </label>
             <input
@@ -67,7 +71,7 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
             />
           </div>
           <div className="flex items-center">
-            <label htmlFor="endDatePicker" className="w-32 mr-2">
+            <label htmlFor="endDatePicker" className="w-32 ">
               End Date:
             </label>
             <input
@@ -86,7 +90,7 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
           disabled={!bothDatesSelected}
           className={`${
             bothDatesSelected ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-300"
-          } text-white font-bold py-2 px-4 rounded shadow-lg transition ease-in-out duration-300`}
+          } text-white font-bold py-2 ml-10 px-4 rounded shadow-lg transition ease-in-out duration-300`}
         >
           Export as PDF
         </button>
@@ -95,7 +99,8 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
       Object.keys(expensesAndIncomesGroupedByMonth).length !== 0 ? (
         <div>
           <h2 className="text-lg font-semibold text-center mb-4">Expenses</h2>
-          <div className="flex justify-around items-center">
+
+          <div className="flex justify-around items-center flex-col md:flex-row">
             <div className="chart-container">
               <BarChart data={expensesGroupedByCategory} />
             </div>
@@ -106,7 +111,7 @@ const ReportsDatePickerWithGraphs: React.FC<DateSelectorProps> = ({
               <PieChart data={expensesGroupedByCategory} />
             </div>
           </div>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col overflow-clip">
             <h2 className="text-lg font-semibold text-center mb-4">Balance</h2>
             <div
               className="flex justify-center chart-container"

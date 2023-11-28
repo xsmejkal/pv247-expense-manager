@@ -11,7 +11,7 @@ const BurgerButton = () => {
 
   return (
     <div>
-      <button className="h-12 w-full" onClick={toggleMenu}>
+      <button className="h-12 w-full text-white" onClick={toggleMenu}>
         ☰ Show menu
       </button>
       {menuToggled && (
