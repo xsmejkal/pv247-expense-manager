@@ -60,18 +60,17 @@ export default async function RootLayout({
           <div className="bg-complementary text-white h-16 w-full px-5 py-2 flex justify-between items-center fixed top-0 z-20">
             <div className="flex flex-row gap-6">
               <Link
-                className="hover:bg-darkBlue hover:text-white rounded border border-white p-3"
+                className="rounded"
                 href="/"
               >
-                Home
+                <Image
+                  src="/logo.png"
+                  alt="Expense Manager++ Logo"
+                  objectFit="contain"
+                  height={30}
+                  width={200}
+                />
               </Link>
-              <Image
-                src="/logo.png"
-                alt="Expense Manager++ Logo"
-                objectFit="contain"
-                height={30}
-                width={50}
-              />
             </div>
             <LoginStatus />
           </div>
