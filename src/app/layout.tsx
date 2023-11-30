@@ -7,7 +7,6 @@ import BurgerButton from "./burger-button";
 import { getServerAuthSession } from "@/server/auth";
 import LoginPage from "./_components/LoginPage";
 import Menu from "./Menu";
-import Head from "next/head";
 import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,22 +24,9 @@ export default async function RootLayout({
   const status = await getServerAuthSession();
   const userId = status?.user.id;
 
-  const siteUrl = "https://pv247-expense-manager-theta.vercel.app";
-  const imageUrl = `${siteUrl}/logo.png`;
   if (!userId) {
     return (
       <html>
-        <Head>
-          <title>Home Page</title>
-          <meta property="og:title" content="Home Page" key="ogtitle" />
-          <meta
-            property="og:description"
-            content="Description of the home page"
-            key="ogdesc"
-          />
-          <meta property="og:image" content={imageUrl} key="ogimage" />
-          <meta property="og:url" content={siteUrl} key="ogurl" />
-        </Head>
         <body>
           <LoginPage />
         </body>
