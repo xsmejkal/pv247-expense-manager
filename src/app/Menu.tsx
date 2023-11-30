@@ -10,13 +10,13 @@ const Menu = () => {
 		let baseClass =
 			'px-5 py-2 hover:bg-gray-700';
 		if (isActive(path)) {
-			baseClass += ' font-bold';
+			baseClass += ' font-bold bg-gray-700';
 		}
 		return baseClass;
 	};
 
   return (
-    <div className="bg-gray-800 text-white flex flex-col overflow-y-auto">
+    <div className="bg-gray-800 text-white flex flex-col">
       <Link href="/categories" className={linkClassName("/categories")}>
         Categories
       </Link>

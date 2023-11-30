@@ -30,7 +30,7 @@ export const ExpenseRow = ({ expense }: { expense: Expense }) => {
   };
 
   return (
-    <div className="mb-8 bg-white rounded-lg shadow-md p-4">
+    <div className="mb-8 bg-white rounded-lg border-2 shadow-md border-complementary p-4">
       <div className="flex flex-col gap-2 mb-4">
         <span className="text-lg font-bold">{expense.name}</span>
         <span className="text-sm text-gray-700">{expense.description}</span>
