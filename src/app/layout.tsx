@@ -8,12 +8,14 @@ import { getServerAuthSession } from "@/server/auth";
 import LoginPage from "./_components/LoginPage";
 import Menu from "./Menu";
 import Image from "next/image";
+import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Expense manager++",
   description: "Expense manager for keeping personal finance in order!",
+  metadataBase: new URL(process.env.DEPLOY_URL ?? "http://localhost:3000"),
 };
 
 export default async function RootLayout({
@@ -45,10 +47,7 @@ export default async function RootLayout({
         <Providers>
           <div className="bg-complementary text-white h-16 w-full px-5 py-2 flex justify-between items-center fixed top-0 z-20">
             <div className="flex flex-row gap-6">
-              <Link
-                className="rounded"
-                href="/"
-              >
+              <Link className="rounded" href="/">
                 <Image
                   src="/logo.png"
                   alt="Expense Manager++ Logo"
