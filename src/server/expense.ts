@@ -18,6 +18,9 @@ export const getAllExpenses = async (): Promise<ServerExpense[]> => {
       include: {
         category: true,
       },
+      orderBy: {        
+        date: 'desc',
+      }
     });
     return expenses;
   } catch (error) {

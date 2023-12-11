@@ -15,6 +15,9 @@ export const getAllCategories = async (): Promise<ServerCategory[]> => {
       where: {
         userId: userId,
       },
+      orderBy: {
+        name: 'asc',
+      },
     });
     return categories;
   } catch (error) {
